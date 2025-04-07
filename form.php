@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['fio'] = 'Поле ФИО обязательно для заполнения';
     } elseif (!preg_match('/^[A-Za-zА-Яа-яЁё\s]+$/u', $fio)) {
         $errors['fio'] = 'ФИО должно содержать только буквы и пробелы';
-    } elseif (mb_strlen($fio) > 150) {
+    } elseif (strlen($fio) > 150) {
         $errors['fio'] = 'ФИО не должно превышать 150 символов';
     }
     
