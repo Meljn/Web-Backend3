@@ -96,7 +96,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $pdo->beginTransaction();
         
-        // Вставляем данные в таблицу Application
         $stmt = $pdo->prepare("INSERT INTO Application (FIO, Phone_number, Email, Birth_day, Gender, Biography, Contract_accepted) 
                               VALUES (:fio, :phone, :email, :dob, :gender, :bio, :contract)");
         $stmt->execute([
@@ -110,8 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         
         $application_id = $pdo->lastInsertId();
+
         
-        // Вставляем языки программирования в Application_Languages
         $stmt = $pdo->prepare("INSERT INTO Application_Languages (Application_ID, Language_ID) 
                               SELECT :app_id, Language_ID FROM Programming_Languages WHERE Name = :language");
         
