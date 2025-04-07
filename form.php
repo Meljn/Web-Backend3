@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo '<li>' . htmlspecialchars($error) . '</li>';
         }
         echo '</ul>';
-        echo '<a href="index.html">Вернуться к форме</a>';
+        echo '<a href="index.php">Вернуться к форме</a>';
         echo '</div>';
         exit;
     }
@@ -96,7 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $pdo->beginTransaction();
         
-        $stmt = $pdo->prepare("INSERT INTO users (fio, phone, email, dob, gender, bio, contract_accepted) 
+        // Вставляем данные в таблицу Application
+        $stmt = $pdo->prepare("INSERT INTO Application (FIO, Phone_number, Email, Birth_day, Gender, Biography, Contract_accepted) 
                               VALUES (:fio, :phone, :email, :dob, :gender, :bio, :contract)");
         $stmt->execute([
             ':fio' => $fio,
@@ -108,14 +109,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':contract' => $contract ? 1 : 0
         ]);
         
-        $user_id = $pdo->lastInsertId();
+        $application_id = $pdo->lastInsertId();
         
-        $stmt = $pdo->prepare("INSERT INTO user_languages (user_id, language_id) 
-                              SELECT :user_id, id FROM programming_languages WHERE name = :language");
+        // Вставляем языки программирования в Application_Languages
+        $stmt = $pdo->prepare("INSERT INTO Application_Languages (Application_ID, Language_ID) 
+                              SELECT :app_id, Language_ID FROM Programming_Languages WHERE Name = :language");
         
         foreach ($languages as $language) {
             $stmt->execute([
-                ':user_id' => $user_id,
+                ':app_id' => $application_id,
                 ':language' => $language
             ]);
         }
@@ -125,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo '<div class="success-container">';
         echo '<h2>Данные успешно сохранены!</h2>';
         echo '<p>Спасибо за заполнение формы.</p>';
-        echo '<a href="index.html">Вернуться к форме</a>';
+        echo '<a href="index.php">Вернуться к форме</a>';
         echo '</div>';
         
     } catch (PDOException $e) {
