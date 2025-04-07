@@ -4,7 +4,7 @@ header('Content-Type: text/html; charset=utf-8');
 $db_host = 'kubsu-dev.ru';
 $db_user = 'u68532';
 $db_pass = '9110579';
-$db_name = 'form_data';
+$db_name = 'u68532';
 
 try {
     $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass);
