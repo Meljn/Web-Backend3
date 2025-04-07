@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 
-$db_host = 'kubsu-dev.ru';
+$db_host = '192.168.199.8';
 $db_user = 'u68532';
 $db_pass = '9110579';
 $db_name = 'u68532';
